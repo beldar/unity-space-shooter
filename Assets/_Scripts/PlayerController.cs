@@ -11,10 +11,22 @@ public class PlayerController : MonoBehaviour {
 	public float tilt;
 	public Boundary boundary;
 	public GameObject shot;
+	public GameObject playerExplosion;
 	public Transform shotSpawn;
 	public float fireRate;
 	private float nextFire;
+	private GameController gameController;
 
+
+	void Start() {
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent <GameController>();
+		}
+		if (gameControllerObject == null) {
+			Debug.Log ("Cannot find GameController Object");
+		}
+	}
 	void Update () {
 		if ((Input.GetButton("Fire1") || Input.GetKeyDown (KeyCode.Space)) && Time.time > nextFire)
 		{
@@ -38,5 +50,16 @@ public class PlayerController : MonoBehaviour {
 		);
 
 		rigidbody.rotation = Quaternion.Euler (0.0f, 0.0f, rigidbody.velocity.x * -tilt);
+	}
+
+	void OnTriggerEnter(Collider other) 
+	{
+		if (other.tag == "EnemyBolt") {
+			Instantiate(playerExplosion, gameObject.transform.position, gameObject.transform.rotation);
+			if (!gameController.Die()) {
+				Destroy(gameObject);
+				return;
+			}
+		}
 	}
 }

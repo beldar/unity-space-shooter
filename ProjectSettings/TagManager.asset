@@ -6,6 +6,11 @@ TagManager:
   - Boundary
   - 
   - Enemy
+  - Bolt
+  - 
+  - Bold
+  - Asteroid
+  - EnemyBolt
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

@@ -11,16 +11,19 @@ public class GameController : MonoBehaviour {
 	public float waveWait;
 
 	public GUIText scoreText;
-	private int score;
-
 	public GUIText restartText;
 	public GUIText gameOverText;
+	public GUIText livesText;
+
+	private int lives;
+	private int score;
 
 	private bool gameOver;
 	private bool restart;
 
 	void Start() {
 		score = 0;
+		lives = 3;
 		gameOver = false;
 		restart = false;
 		restartText.text = "";
@@ -68,7 +71,21 @@ public class GameController : MonoBehaviour {
 		scoreText.text = "Score: " + score;
 	}
 
-	public void GameOver() {
+	void UpdateLives() {
+		livesText.text = "Lives: " + lives;
+	}
+
+	public bool Die() {
+		lives--;
+		UpdateLives ();
+		if (lives == 0) {
+			GameOver();
+			return true;
+		}
+		return false;
+	}
+
+	private void GameOver() {
 		gameOverText.text = "Game Over!";
 		gameOver = true;
 	}
